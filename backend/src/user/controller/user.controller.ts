@@ -30,7 +30,7 @@ export class UserController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadAvatar(
     @Param('id') id: string,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: any,
   ): Promise<{ url: string }> {
     return this.userService.uploadAvatar(id, file);
   }

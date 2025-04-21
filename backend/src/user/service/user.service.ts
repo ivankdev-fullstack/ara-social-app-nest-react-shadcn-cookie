@@ -49,10 +49,7 @@ export class UserService {
     return newUser;
   }
 
-  public async uploadAvatar(
-    id: string,
-    file: Express.Multer.File,
-  ): Promise<{ url: string }> {
+  public async uploadAvatar(id: string, file: any): Promise<{ url: string }> {
     const accessKey = this.configService.get<string>('S3_ACCESS_KEY')!;
     const secretKey = this.configService.get<string>('S3_SECRET_KEY')!;
     const bucketName = this.configService.get<string>('S3_BUCKET_NAME')!;
