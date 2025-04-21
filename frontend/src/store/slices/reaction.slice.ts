@@ -33,7 +33,7 @@ export const reactionSlice = createSlice({
         target_type === 'post' ? 'postReactions' : 'commentReactions';
 
       state[target][target_id] ||= {};
-      state[target][target_id][type] = type;
+      state[target][target_id][type!] = type;
     },
     applyReaction: (
       state,
@@ -47,13 +47,13 @@ export const reactionSlice = createSlice({
 
       switch (result) {
         case 'created':
-          state[target][target_id][type] = type;
+          state[target][target_id][type!] = type;
           break;
         case 'updated':
-          state[target][target_id] = { [type]: type };
+          state[target][target_id] = { [type!]: type };
           break;
         case 'deleted':
-          delete state[target][target_id][type];
+          delete state[target][target_id][type!];
           break;
         default:
           throw new Error(
