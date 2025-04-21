@@ -40,7 +40,7 @@ export const SignInForm = ({ setIsSignIn }: Props) => {
     try {
       await login(data).unwrap();
       navigate('/feed');
-      // window.location.reload();
+      // window.location.href = '/feed';
     } catch (err) {
       toast.error('Something went wrong while loggin in.');
       console.log('Error while logging: ', err);
