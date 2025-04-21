@@ -1,0 +1,32 @@
+* {
+  outline: none;
+}
+
+.container,
+.small-container,
+.post-container {
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.container {
+  max-width: 1660px;
+}
+
+.small-container {
+  max-width: 1180px;
+}
+
+.post-container {
+  max-width: 800px;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
