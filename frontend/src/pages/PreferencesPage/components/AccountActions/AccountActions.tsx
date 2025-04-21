@@ -26,7 +26,7 @@ export const AccountActions = ({ user_id }: Props) => {
   const handleDeleteAccount = async () => {
     try {
       await deleteById({ id: user_id }).unwrap();
-      navigate('/auth');
+      navigate('/');
       console.log('deleted');
     } catch (err) {
       console.log('Error while updating user name: ', err);
@@ -36,7 +36,7 @@ export const AccountActions = ({ user_id }: Props) => {
   const handleLogout = async () => {
     try {
       await logout().unwrap();
-      navigate('/auth');
+      navigate('/');
       console.log('logged out');
     } catch (err) {
       console.log('Error while updating user name: ', err);

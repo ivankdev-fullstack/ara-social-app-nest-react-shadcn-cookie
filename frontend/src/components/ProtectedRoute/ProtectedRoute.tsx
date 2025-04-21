@@ -9,11 +9,11 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
 
   if (isLoading) return null;
 
-  if (!user && location.pathname !== '/auth') {
-    navigate('/auth', { replace: true });
+  if (!user && location.pathname !== '/') {
+    navigate('/', { replace: true });
     return null;
   }
-  if (user && location.pathname === '/auth') {
+  if (user && location.pathname === '/') {
     navigate('/feed', { replace: true });
     return null;
   }

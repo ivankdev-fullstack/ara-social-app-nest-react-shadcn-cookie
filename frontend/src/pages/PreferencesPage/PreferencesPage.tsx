@@ -16,7 +16,7 @@ export const PreferencesPage = () => {
 
   useEffect(() => {
     if (!isLoading && !user) {
-      navigate('/auth');
+      navigate('/');
     }
   }, [user, isLoading, navigate]);
 

@@ -13,7 +13,7 @@ export const App = () => {
       <Routes>
         <Route
           index
-          path="/auth"
+          path="/"
           element={
             <ProtectedRoute>
               <AuthPage />

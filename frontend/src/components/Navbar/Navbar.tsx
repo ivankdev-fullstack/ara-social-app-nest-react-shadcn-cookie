@@ -19,7 +19,7 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (!isLoading && !user) {
-      navigate('/auth');
+      navigate('/');
     }
   }, [user, isLoading, navigate]);
 
@@ -36,7 +36,7 @@ export const Navbar = () => {
 
   const handleLogout = async () => {
     await logout().unwrap();
-    navigate('/auth');
+    navigate('/');
     window.location.reload();
   };
 
