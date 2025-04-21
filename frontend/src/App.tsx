@@ -12,6 +12,7 @@ export const App = () => {
     <>
       <Routes>
         <Route
+          index
           path="/auth"
           element={
             <ProtectedRoute>
