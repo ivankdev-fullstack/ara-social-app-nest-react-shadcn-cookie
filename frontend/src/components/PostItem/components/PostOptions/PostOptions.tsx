@@ -27,7 +27,7 @@ export const PostOptions = ({ post, setIsEditFormOpen }: Props) => {
   const [open, setOpen] = useState(false);
 
   const handleRedirectToAuthorsPage = () => {
-    navigate(`/users/${post.user.id}`);
+    navigate(`/profile/${post.user.id}`);
   };
 
   const handleDelete = async () => {

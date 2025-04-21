@@ -39,6 +39,7 @@ export const SignInForm = ({ setIsSignIn }: Props) => {
     try {
       await login(data).unwrap();
       navigate('/feed');
+      window.location.reload();
     } catch (err) {
       form.setError('password', {
         type: 'manual',

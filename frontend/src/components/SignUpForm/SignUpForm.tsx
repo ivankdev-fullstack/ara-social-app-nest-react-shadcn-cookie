@@ -47,6 +47,7 @@ export const SignUpForm = ({ setIsSignIn }: Props) => {
     try {
       await register(data).unwrap();
       navigate('/feed');
+      window.location.reload();
     } catch (err) {
       form.setError('email', {
         type: 'manual',

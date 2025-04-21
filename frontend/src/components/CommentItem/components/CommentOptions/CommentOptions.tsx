@@ -28,7 +28,7 @@ export const CommentOptions = ({ comment, setIsEditFormOpen }: Props) => {
   const [deleteById] = useDeleteByIdMutation();
 
   const handleRedirectToAuthorsPage = () => {
-    navigate(`/users/${comment.user.id}`);
+    navigate(`/profile/${comment.user.id}`);
   };
 
   const handleDelete = async () => {

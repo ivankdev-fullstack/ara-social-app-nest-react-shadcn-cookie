@@ -37,6 +37,7 @@ export const Navbar = () => {
   const handleLogout = async () => {
     await logout().unwrap();
     navigate('/auth');
+    window.location.reload();
   };
 
   return (
