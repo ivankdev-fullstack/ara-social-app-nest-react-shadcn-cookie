@@ -48,7 +48,7 @@ export const SignUpForm = ({ setIsSignIn }: Props) => {
     try {
       await register(data).unwrap();
       navigate('/feed');
-      // window.location.href = '/feed';
+      window.location.reload();
     } catch (err) {
       toast.error('Something went wrong while loggin in.');
       console.error('Register error:', err);
