@@ -16,7 +16,7 @@ async function bootstrap() {
     .useGlobalInterceptors(new ResponseSerializerInterceptor(refrector))
     .use(cookieParser())
     .enableCors({
-      origin: process.env.CLIENT_URL,
+      origin: '*',
       credentials: true,
     });
 

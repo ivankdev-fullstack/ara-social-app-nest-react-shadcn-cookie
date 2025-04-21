@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -41,10 +42,7 @@ export const SignInForm = ({ setIsSignIn }: Props) => {
       navigate('/feed');
       window.location.reload();
     } catch (err) {
-      form.setError('password', {
-        type: 'manual',
-        message: 'Invalid email or password.',
-      });
+      toast.error('Something went wrong while loggin in.');
       console.log('Error while logging: ', err);
     }
   };

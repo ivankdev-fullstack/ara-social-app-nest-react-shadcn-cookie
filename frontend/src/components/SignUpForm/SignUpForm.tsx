@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -49,10 +50,7 @@ export const SignUpForm = ({ setIsSignIn }: Props) => {
       navigate('/feed');
       window.location.reload();
     } catch (err) {
-      form.setError('email', {
-        type: 'manual',
-        message: 'This email is already registered.',
-      });
+      toast.error('Something went wrong while loggin in.');
       console.error('Register error:', err);
     }
   };
