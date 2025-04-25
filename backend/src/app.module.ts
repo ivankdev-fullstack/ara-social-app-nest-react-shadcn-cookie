@@ -1,14 +1,14 @@
 import { getEnvFile } from '@common/config/env';
-import { JwtAuthMiddleware } from '@common/middlewares/jwt-auth.middleware';
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { CommentModule } from './comment/comment.module';
-import { FirestoreModule } from './firestore/firestore.module';
 import { PostModule } from './post/post.module';
 import { ReactionModule } from './reaction/reaction.module';
 import { UserModule } from './user/user.module';
+import { FirestoreModule } from 'firestore/firestore.module';
+import { FirebaseModule } from 'firebase/firebase.module';
 
 @Module({
   imports: [
@@ -23,6 +23,7 @@ import { UserModule } from './user/user.module';
       }),
       inject: [ConfigService],
     }),
+    FirebaseModule,
     UserModule,
     AuthModule,
     PostModule,
@@ -32,11 +33,11 @@ import { UserModule } from './user/user.module';
   controllers: [AppController],
   providers: [],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(JwtAuthMiddleware)
-      .exclude('/auth/login', '/auth/register')
-      .forRoutes('*');
-  }
+export class AppModule {
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer
+  //     .apply(JwtAuthMiddleware)
+  //     .exclude('/auth/login', '/auth/register')
+  //     .forRoutes('*');
+  // }
 }

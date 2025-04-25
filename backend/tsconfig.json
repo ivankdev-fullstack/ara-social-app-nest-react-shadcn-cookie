@@ -27,6 +27,7 @@
       "@interfaces/*": ["_common/interfaces/*"],
       "@middlewares/*": ["_common/middlewares/*"],
       "@types/*": ["_common/types/*"]
-    }
+    },
+    "resolveJsonModule": true
   }
 }

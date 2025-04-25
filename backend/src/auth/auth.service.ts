@@ -1,20 +1,17 @@
+import { AuthMeResponse, AuthRegisterRequest } from '@common/contracts/auth';
 import {
-  AuthLoginRequest,
-  AuthMeResponse,
-  AuthRegisterRequest,
-} from '@common/contracts/auth';
-import { JWTPayload } from '@common/interfaces/auth/auth.interface';
-import {
-  BadRequestException,
+  ConflictException,
   forwardRef,
   Inject,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
+import { FirebaseService } from 'firebase/firebase.service';
+import { User } from 'user/entity/user.entity';
 import { UserRepository } from 'user/user.repository';
 import { UserService } from '../user/user.service';
 
@@ -26,6 +23,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
     private readonly configService: ConfigService,
+    private readonly firebaseService: FirebaseService,
   ) {}
 
   public async me(user_id: string): Promise<AuthMeResponse> {
@@ -42,58 +40,36 @@ export class AuthService {
     }
   }
 
-  public async login(data: AuthLoginRequest): Promise<string> {
-    const user = await this.userRepository.getByEmail(data.email);
-    if (!user) {
-      throw new NotFoundException('User with this email not found');
+  public async register(data: AuthRegisterRequest) {
+    const auth = this.firebaseService.getAuth();
+
+    const isExist = await this.userRepository.getByEmail(data.email);
+    if (isExist) {
+      throw new ConflictException('User with this email is already registered');
     }
 
-    const isValidPassword = await this.comparePassword(
-      data.password,
-      user.password,
-    );
-    if (!isValidPassword) {
-      throw new BadRequestException('Invalid email or password');
-    }
+    try {
+      const userRecord = await auth.createUser({
+        email: data.email,
+        password: data.password,
+        displayName: data.name,
+        phoneNumber: data.phone ?? undefined,
+      });
 
-    return this.generateToken({ user_id: user.id });
-  }
+      const userEntity = new User({
+        id: userRecord.uid,
+        name: data.name,
+        email: data.email,
+        phone: data.phone ?? null,
+      });
 
-  public async register(data: AuthRegisterRequest): Promise<string> {
-    const user = await this.userRepository.getByEmail(data.email);
-    if (user) {
-      throw new BadRequestException(
-        'User with this email is already registered',
+      await this.userRepository.create(userEntity);
+      return auth.createCustomToken(userRecord.uid);
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException(
+        'Something went wrong during user registration',
       );
     }
-
-    const hashedPassword = await this.hashPassword(data.password);
-    const newUser = await this.userService.create({
-      ...data,
-      password: hashedPassword,
-    });
-
-    return this.generateToken({ user_id: newUser.id });
-  }
-
-  public async comparePassword(
-    inputPassword: string,
-    hashedPassword: string,
-  ): Promise<boolean> {
-    return bcrypt.compare(inputPassword, hashedPassword);
-  }
-
-  public async hashPassword(plainPassword: string): Promise<string> {
-    return bcrypt.hash(plainPassword, 10);
-  }
-
-  private async generateToken(payload: JWTPayload): Promise<string> {
-    const secret = this.configService.get<string>('JWT_SECRET');
-    const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN');
-
-    return this.jwtService.signAsync(payload, {
-      secret,
-      expiresIn,
-    });
   }
 }

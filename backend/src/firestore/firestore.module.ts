@@ -1,6 +1,5 @@
 import { Firestore } from '@google-cloud/firestore';
 import { DynamicModule, Module } from '@nestjs/common';
-
 import {
   FirestoreCollectionProviders,
   FirestoreDatabaseProvider,

@@ -49,70 +49,70 @@ export class UserService {
     return newUser;
   }
 
-  public async uploadAvatar(id: string, file: any): Promise<{ url: string }> {
-    const accessKey = this.configService.get<string>('S3_ACCESS_KEY')!;
-    const secretKey = this.configService.get<string>('S3_SECRET_KEY')!;
-    const bucketName = this.configService.get<string>('S3_BUCKET_NAME')!;
+  // public async uploadAvatar(id: string, file: any): Promise<{ url: string }> {
+  //   const accessKey = this.configService.get<string>('S3_ACCESS_KEY')!;
+  //   const secretKey = this.configService.get<string>('S3_SECRET_KEY')!;
+  //   const bucketName = this.configService.get<string>('S3_BUCKET_NAME')!;
 
-    const s3 = new AWS.S3({
-      accessKeyId: accessKey,
-      secretAccessKey: secretKey,
-    });
+  //   const s3 = new AWS.S3({
+  //     accessKeyId: accessKey,
+  //     secretAccessKey: secretKey,
+  //   });
 
-    const user = await this.getById(id);
-    const originalName = `${user.name}-${new Date().toISOString()}`;
-    const params = {
-      Bucket: bucketName,
-      Key: String(originalName),
-      Body: file.buffer,
-      ContentType: file.mimetype,
-      ContentDisposition: 'inline',
-      CreateBucketConfiguration: {
-        LocationConstraint: 'us-east-1',
-      },
-    };
+  //   const user = await this.getById(id);
+  //   const originalName = `${user.name}-${new Date().toISOString()}`;
+  //   const params = {
+  //     Bucket: bucketName,
+  //     Key: String(originalName),
+  //     Body: file.buffer,
+  //     ContentType: file.mimetype,
+  //     ContentDisposition: 'inline',
+  //     CreateBucketConfiguration: {
+  //       LocationConstraint: 'us-east-1',
+  //     },
+  //   };
 
-    const response = await s3.upload(params).promise();
+  //   const response = await s3.upload(params).promise();
 
-    await this.updateById(user.id, { avatar: response.Location });
-    return { url: response.Location };
-  }
+  //   await this.updateById(user.id, { avatar: response.Location });
+  //   return { url: response.Location };
+  // }
 
-  public async updateById(
-    id: string,
-    data: UserUpdateByIdRequest,
-  ): Promise<boolean> {
-    const user = await this.getById(id);
+  // public async updateById(
+  //   id: string,
+  //   data: UserUpdateByIdRequest,
+  // ): Promise<boolean> {
+  //   const user = await this.getById(id);
 
-    if (data?.email) {
-      if (user.email === data.email) {
-        throw new BadRequestException('This email is already registered');
-      }
+  //   if (data?.email) {
+  //     if (user.email === data.email) {
+  //       throw new BadRequestException('This email is already registered');
+  //     }
 
-      const presentUserEmail = await this.userRepository.getByEmail(data.email);
-      if (presentUserEmail) {
-        throw new BadRequestException('This email is already registered');
-      }
-    }
-    if (data?.password) {
-      const isTheSame = await this.authService.comparePassword(
-        data.password,
-        user.password,
-      );
+  //     const presentUserEmail = await this.userRepository.getByEmail(data.email);
+  //     if (presentUserEmail) {
+  //       throw new BadRequestException('This email is already registered');
+  //     }
+  //   }
+  //   if (data?.password) {
+  //     const isTheSame = await this.authService.comparePassword(
+  //       data.password,
+  //       user.password,
+  //     );
 
-      if (isTheSame) {
-        throw new BadRequestException('Cannot update password to current one');
-      }
-      data.password = await this.authService.hashPassword(data.password);
-    }
+  //     if (isTheSame) {
+  //       throw new BadRequestException('Cannot update password to current one');
+  //     }
+  //     data.password = await this.authService.hashPassword(data.password);
+  //   }
 
-    const res = await this.userRepository.updateById(id, { ...user, ...data });
-    if (!res) {
-      throw new InternalServerErrorException('Error while updating user');
-    }
+  //   const res = await this.userRepository.updateById(id, { ...user, ...data });
+  //   if (!res) {
+  //     throw new InternalServerErrorException('Error while updating user');
+  //   }
 
-    return res;
-  }
+  //   return res;
+  // }
 
   public async deleteById(id: string): Promise<boolean> {
     const user = await this.getById(id);
