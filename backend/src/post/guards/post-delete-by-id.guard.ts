@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PostService } from '../service/post.service';
+import { PostService } from '../post.service';
 
 @Injectable()
 export class PostDeleteByIdGuard implements CanActivate {

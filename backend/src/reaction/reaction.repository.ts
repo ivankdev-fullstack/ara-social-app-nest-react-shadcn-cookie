@@ -17,10 +17,10 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { CommentRepository } from 'comment/repository/comment.repository';
+import { CommentRepository } from 'comment/comment.repository';
 import { FirestoreDatabaseProvider } from 'firestore/firestore.providers';
-import { PostRepository } from 'post/repostory/post.repository';
-import { Reaction } from '../entity/reaction.entity';
+import { PostRepository } from 'post/post.repository';
+import { Reaction } from './entity/reaction.entity';
 
 @Injectable()
 export class ReactionRepository {

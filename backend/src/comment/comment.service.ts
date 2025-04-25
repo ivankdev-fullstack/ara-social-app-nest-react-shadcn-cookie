@@ -10,9 +10,9 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { UserService } from 'user/service/user.service';
-import { Comment } from '../entity/comment.entity';
-import { CommentRepository } from '../repository/comment.repository';
+import { UserService } from 'user/user.service';
+import { CommentRepository } from './comment.repository';
+import { Comment } from './entity/comment.entity';
 
 @Injectable()
 export class CommentService {

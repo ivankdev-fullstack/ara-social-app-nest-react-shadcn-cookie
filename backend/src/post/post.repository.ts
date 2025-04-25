@@ -8,8 +8,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { ReactionRepository } from '../../reaction/repository/reaction.repository';
-import { Post } from '../entity/post.entity';
+import { ReactionRepository } from 'reaction/reaction.repository';
+import { Post } from './entity/post.entity';
 
 @Injectable()
 export class PostRepository {

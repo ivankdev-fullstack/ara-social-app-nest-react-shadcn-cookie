@@ -4,7 +4,7 @@ import {
   CurrentUserType,
 } from '@common/decorators/current-user.decorator';
 import { Body, Controller, Post } from '@nestjs/common';
-import { ReactionService } from 'reaction/service/reaction.service';
+import { ReactionService } from './reaction.service';
 
 @Controller('reactions')
 export class ReactionController {

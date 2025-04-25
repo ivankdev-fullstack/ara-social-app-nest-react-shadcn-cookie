@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { CommentService } from '../service/comment.service';
+import { CommentService } from 'comment/comment.service';
 
 @Injectable()
 export class CommentDeleteByIdGuard implements CanActivate {

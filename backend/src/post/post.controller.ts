@@ -19,8 +19,8 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { PostDeleteByIdGuard, PostUpdateByIdGuard } from '../guards';
-import { PostService } from '../service/post.service';
+import { PostDeleteByIdGuard, PostUpdateByIdGuard } from './guards';
+import { PostService } from './post.service';
 
 @Controller('posts')
 export class PostController {

@@ -3,7 +3,7 @@ import {
   ReactionCreateResponse,
 } from '@common/contracts/reaction/reaction.create';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { ReactionRepository } from '../repository/reaction.repository';
+import { ReactionRepository } from './reaction.repository';
 
 @Injectable()
 export class ReactionService {

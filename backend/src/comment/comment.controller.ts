@@ -20,8 +20,8 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CommentDeleteByIdGuard, CommentUpdateByIdGuard } from '../guards';
-import { CommentService } from '../service/comment.service';
+import { CommentService } from './comment.service';
+import { CommentDeleteByIdGuard, CommentUpdateByIdGuard } from './guards';
 
 @Controller('comments')
 export class CommentController {

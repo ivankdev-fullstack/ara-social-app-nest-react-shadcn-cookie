@@ -11,8 +11,8 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from 'auth/auth.service';
 import * as AWS from 'aws-sdk';
-import { User } from '../entity/user.entity';
-import { UserRepository } from '../repository/user.repository';
+import { User } from './entity/user.entity';
+import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UserService {

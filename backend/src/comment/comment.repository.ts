@@ -16,8 +16,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { FirestoreDatabaseProvider } from 'firestore/firestore.providers';
-import { PostRepository } from '../../post/repostory/post.repository';
-import { Comment } from '../entity/comment.entity';
+import { PostRepository } from 'post/post.repository';
+import { Comment } from './entity/comment.entity';
 
 @Injectable()
 export class CommentRepository {

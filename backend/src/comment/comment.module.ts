@@ -3,9 +3,9 @@ import { AuthModule } from 'auth/auth.module';
 import { PostModule } from 'post/post.module';
 import { ReactionModule } from 'reaction/reaction.module';
 import { UserModule } from 'user/user.module';
-import { CommentController } from './controller/comment.controller';
-import { CommentRepository } from './repository/comment.repository';
-import { CommentService } from './service/comment.service';
+import { CommentController } from './comment.controller';
+import { CommentRepository } from './comment.repository';
+import { CommentService } from './comment.service';
 
 @Module({
   controllers: [CommentController],

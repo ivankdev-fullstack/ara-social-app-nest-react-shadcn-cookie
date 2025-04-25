@@ -1,7 +1,7 @@
 import { CollectionReference } from '@google-cloud/firestore';
-import { Inject, Injectable } from '@nestjs/common';
 import { IUser } from '@interfaces/user/user.interface';
-import { User } from '../entity/user.entity';
+import { Inject, Injectable } from '@nestjs/common';
+import { User } from './entity/user.entity';
 
 @Injectable()
 export class UserRepository {

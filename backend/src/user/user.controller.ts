@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
-import { UserService } from '../service/user.service';
+import { UserService } from './user.service';
 
 @Controller('users')
 export class UserController {

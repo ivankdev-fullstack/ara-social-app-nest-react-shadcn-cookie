@@ -9,9 +9,9 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { UserService } from 'user/service/user.service';
-import { Post } from '../entity/post.entity';
-import { PostRepository } from '../repostory/post.repository';
+import { UserService } from 'user/user.service';
+import { Post } from './entity/post.entity';
+import { PostRepository } from './post.repository';
 
 @Injectable()
 export class PostService {
