@@ -67,6 +67,11 @@ export class AuthService {
       return auth.createCustomToken(userRecord.uid);
     } catch (err) {
       console.log(err);
+      if (err.code === 'auth/email-already-exists') {
+        throw new ConflictException(
+          'User with this email is already registered',
+        );
+      }
       throw new InternalServerErrorException(
         'Something went wrong during user registration',
       );
