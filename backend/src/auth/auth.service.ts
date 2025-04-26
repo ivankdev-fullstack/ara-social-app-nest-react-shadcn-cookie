@@ -8,8 +8,6 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { FirebaseService } from 'firebase/firebase.service';
 import { User } from 'user/entity/user.entity';
 import { UserRepository } from 'user/user.repository';
@@ -19,10 +17,7 @@ import { UserService } from '../user/user.service';
 export class AuthService {
   constructor(
     @Inject(forwardRef(() => UserService))
-    private readonly userService: UserService,
-    private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
-    private readonly configService: ConfigService,
     private readonly firebaseService: FirebaseService,
   ) {}
 
