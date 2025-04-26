@@ -11,9 +11,4 @@ export class UserCreateRequest {
 
   @IsString()
   email: string;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
-  phone?: string;
 }

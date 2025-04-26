@@ -1,5 +1,5 @@
 import { useAuth } from '@/hooks/useAuth';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
@@ -7,15 +7,19 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  if (isLoading) return null;
+  useEffect(() => {
+    if (!isLoading) {
+      if (!user && location.pathname !== '/') {
+        navigate('/', { replace: true });
+      }
+      if (user && location.pathname === '/') {
+        navigate('/feed', { replace: true });
+      }
+    }
+  }, [user, isLoading, location.pathname, navigate]);
 
-  if (!user && location.pathname !== '/') {
-    navigate('/', { replace: true });
-    return null;
-  }
-  if (user && location.pathname === '/') {
-    navigate('/feed', { replace: true });
-    return null;
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
   return children;

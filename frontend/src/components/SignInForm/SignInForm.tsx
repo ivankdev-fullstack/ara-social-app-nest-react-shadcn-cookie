@@ -1,3 +1,4 @@
+import { auth } from '@/_common/config/firebase';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -8,11 +9,10 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useLoginMutation } from '@/store/api/auth.api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Dispatch, SetStateAction } from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
@@ -26,8 +26,7 @@ interface Props {
 }
 
 export const SignInForm = ({ setIsSignIn }: Props) => {
-  const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
+  const [isLoading, setLoading] = useState<boolean>(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,9 +36,16 @@ export const SignInForm = ({ setIsSignIn }: Props) => {
   });
 
   const onSignIn = async (data: z.infer<typeof formSchema>) => {
+    setLoading(true);
     try {
-      await login(data).unwrap();
-      navigate('/feed');
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password,
+      );
+      const idToken = await userCredential.user.getIdToken();
+      localStorage.setItem('token', idToken);
+      setLoading(false);
       window.location.reload();
     } catch (err) {
       toast.error('Something went wrong while loggin in.');

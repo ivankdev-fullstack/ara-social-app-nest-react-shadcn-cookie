@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthService } from 'auth/auth.service';
-import * as AWS from 'aws-sdk';
 import { User } from './entity/user.entity';
 import { UserRepository } from './user.repository';
 
@@ -78,49 +77,28 @@ export class UserService {
   //   return { url: response.Location };
   // }
 
-  // public async updateById(
-  //   id: string,
-  //   data: UserUpdateByIdRequest,
-  // ): Promise<boolean> {
-  //   const user = await this.getById(id);
-
-  //   if (data?.email) {
-  //     if (user.email === data.email) {
-  //       throw new BadRequestException('This email is already registered');
-  //     }
-
-  //     const presentUserEmail = await this.userRepository.getByEmail(data.email);
-  //     if (presentUserEmail) {
-  //       throw new BadRequestException('This email is already registered');
-  //     }
-  //   }
-  //   if (data?.password) {
-  //     const isTheSame = await this.authService.comparePassword(
-  //       data.password,
-  //       user.password,
-  //     );
-
-  //     if (isTheSame) {
-  //       throw new BadRequestException('Cannot update password to current one');
-  //     }
-  //     data.password = await this.authService.hashPassword(data.password);
-  //   }
-
-  //   const res = await this.userRepository.updateById(id, { ...user, ...data });
-  //   if (!res) {
-  //     throw new InternalServerErrorException('Error while updating user');
-  //   }
-
-  //   return res;
-  // }
-
-  public async deleteById(id: string): Promise<boolean> {
+  public async updateById(
+    id: string,
+    data: UserUpdateByIdRequest,
+  ): Promise<boolean> {
     const user = await this.getById(id);
-    const res = await this.userRepository.deleteById(user.id);
 
-    if (!res) {
-      throw new InternalServerErrorException('Error while removing user');
+    if (data?.email) {
+      if (user.email === data.email) {
+        throw new BadRequestException('This email is already registered');
+      }
+
+      const presentUserEmail = await this.userRepository.getByEmail(data.email);
+      if (presentUserEmail) {
+        throw new BadRequestException('This email is already registered');
+      }
     }
+
+    const res = await this.userRepository.updateById(id, { ...user, ...data });
+    if (!res) {
+      throw new InternalServerErrorException('Error while updating user');
+    }
+
     return res;
   }
 }

@@ -51,7 +51,7 @@ export const PreferencesPage = () => {
             <PasswordForm user_id={user.id} />
           </PreferencesSection>
           <PreferencesSection title="Account actions">
-            <AccountActions user_id={user.id} />
+            <AccountActions />
           </PreferencesSection>
         </CardContent>
       </Card>

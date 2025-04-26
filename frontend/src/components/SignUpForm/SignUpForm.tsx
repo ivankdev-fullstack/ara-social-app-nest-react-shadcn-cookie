@@ -1,3 +1,4 @@
+import { auth } from '@/_common/config/firebase';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -10,20 +11,15 @@ import {
 import { Input } from '@/components/ui/input';
 import { useRegisterMutation } from '@/store/api/auth.api';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { signInWithCustomToken } from 'firebase/auth';
 import { Dispatch, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
 const formSchema = z.object({
   name: z.string().min(5).max(50),
   email: z.string().email().min(5).max(50),
-  phone: z
-    .string()
-    .min(10, { message: 'Phone number must be at least 10 digits' })
-    .max(15, { message: 'Phone number must be at most 15 digits' })
-    .regex(/^\+?[0-9]{10,15}$/, { message: 'Invalid phone number format' }),
   password: z.string().min(6).max(50),
 });
 
@@ -32,22 +28,22 @@ interface Props {
 }
 
 export const SignUpForm = ({ setIsSignIn }: Props) => {
-  const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
       email: '',
-      phone: '',
       password: '',
     },
   });
 
-  const onSignIn = async (data: z.infer<typeof formSchema>) => {
+  const onSignUp = async (data: z.infer<typeof formSchema>) => {
     try {
-      await register(data).unwrap();
-      navigate('/feed');
+      const { token } = await register(data).unwrap();
+      const userCredential = await signInWithCustomToken(auth, token);
+      const idToken = await userCredential.user.getIdToken();
+      localStorage.setItem('token', idToken);
       window.location.reload();
     } catch (err) {
       toast.error('Something went wrong while loggin in.');
@@ -58,7 +54,7 @@ export const SignUpForm = ({ setIsSignIn }: Props) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSignIn)}
+        onSubmit={form.handleSubmit(onSignUp)}
         className="shadow-accent flex max-w-[500px] flex-col justify-center space-y-4 rounded-lg border-1 p-6 shadow-md"
       >
         <div className="mb-8 text-center text-2xl font-medium">
@@ -89,19 +85,6 @@ export const SignUpForm = ({ setIsSignIn }: Props) => {
                   type="email"
                   {...field}
                 />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <Input placeholder="( ___ ) ___ __ __" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

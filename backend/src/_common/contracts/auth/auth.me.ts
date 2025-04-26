@@ -1,11 +1,11 @@
 import { IUser } from '@common/interfaces/user/user.interface';
 import { Exclude, Expose } from 'class-transformer';
-import { IsOptional, IsString, IsUUID } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 @Exclude()
 export class AuthMeResponse implements Omit<IUser, 'password'> {
   @Expose()
-  @IsUUID()
+  @IsString()
   id: string;
 
   @Expose()
@@ -15,11 +15,6 @@ export class AuthMeResponse implements Omit<IUser, 'password'> {
   @Expose()
   @IsString()
   email: string;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
-  phone?: string | null;
 
   @Expose()
   @IsString()

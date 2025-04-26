@@ -10,7 +10,6 @@ interface LoginBody {
 interface RegisterBody {
   name: string;
   email: string;
-  phone?: string | null;
   password: string;
 }
 
@@ -18,35 +17,35 @@ export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
     baseUrl: envConfig.API_URL,
-    credentials: 'include',
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
-  endpoints: (builder) => ({
-    login: builder.mutation<IAuthResponse, LoginBody>({
-      query: (credentials) => ({
-        url: '/auth/login',
-        method: 'POST',
-        body: credentials,
+  endpoints: ({ query, mutation }) => ({
+    getMe: query<IUser, undefined>({
+      query: () => ({
+        url: '/auth/me',
       }),
     }),
-    register: builder.mutation<IAuthResponse, RegisterBody>({
+    login: mutation<IAuthResponse, LoginBody>({
+      query: (data) => ({
+        url: '/auth/login',
+        method: 'POST',
+        body: data,
+      }),
+    }),
+    register: mutation<IAuthResponse, RegisterBody>({
       query: (data) => ({
         url: '/auth/register',
         method: 'POST',
         body: data,
       }),
     }),
-    logout: builder.mutation<void, void>({
-      query: () => '/auth/logout',
-    }),
-    getMe: builder.query<IUser, void>({
-      query: () => '/auth/me',
-    }),
   }),
 });
 
-export const {
-  useLoginMutation,
-  useRegisterMutation,
-  useLogoutMutation,
-  useGetMeQuery,
-} = authApi;
+export const { useLoginMutation, useRegisterMutation, useGetMeQuery } = authApi;

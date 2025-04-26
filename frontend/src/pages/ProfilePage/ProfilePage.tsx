@@ -42,7 +42,6 @@ export const ProfilePage = () => {
               <span>Contact Information:</span>
               <div className="gap-.5 flex flex-col items-center text-sm text-gray-600 italic">
                 <span>Email: {user.email}</span>
-                {user?.phone && <span>Phone: {user.phone}</span>}
               </div>
             </div>
           </div>

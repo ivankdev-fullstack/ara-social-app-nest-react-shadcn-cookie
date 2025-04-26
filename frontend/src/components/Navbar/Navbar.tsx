@@ -1,3 +1,4 @@
+import { auth } from '@/_common/config/firebase';
 import AraWhiteIcon from '@/assets/ara_white.svg';
 import PopoverArrow from '@/assets/popover-arrow.svg';
 import {
@@ -6,8 +7,10 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { useAuth } from '@/hooks/useAuth';
-import { useLogoutMutation } from '@/store/api/auth.api';
+import { logout } from '@/store/slices/auth.slice';
+import { signOut } from 'firebase/auth';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -15,7 +18,7 @@ import { Input } from '../ui/input';
 export const Navbar = () => {
   const navigate = useNavigate();
   const { user, isLoading } = useAuth();
-  const [logout] = useLogoutMutation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isLoading && !user) {
@@ -25,6 +28,7 @@ export const Navbar = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (!user) return null;
+  console.log(user);
 
   const redirectToUserPage = () => {
     navigate(`/profile/${user.id}`);
@@ -35,8 +39,9 @@ export const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    await logout().unwrap();
-    navigate('/');
+    await signOut(auth);
+    localStorage.removeItem('token');
+    dispatch(logout());
     window.location.reload();
   };
 

@@ -7,6 +7,7 @@ import {
   CurrentUser,
   CurrentUserType,
 } from '@common/decorators/current-user.decorator';
+import { Public } from '@common/decorators/is-public.decorator';
 import { Serialize } from '@common/decorators/serialize.decorator';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -20,9 +21,10 @@ export class AuthController {
   public async me(
     @CurrentUser() user: CurrentUserType,
   ): Promise<AuthMeResponse> {
-    return this.authService.me(user.id);
+    return this.authService.me(user.uid);
   }
 
+  @Public()
   @Post('register')
   @Serialize(AuthRegisterResponse)
   public async register(

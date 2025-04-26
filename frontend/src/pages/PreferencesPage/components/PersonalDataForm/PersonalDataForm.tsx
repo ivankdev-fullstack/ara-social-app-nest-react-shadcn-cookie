@@ -1,3 +1,4 @@
+import { auth } from '@/_common/config/firebase';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -12,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { useUpdateByIdMutation } from '@/store/api/user.api';
 import { selectCurrentUser, updateUser } from '@/store/slices/auth.slice';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { updateProfile } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
@@ -34,6 +36,7 @@ export const PersonalDataForm = () => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
+      await updateProfile(auth.currentUser!, { displayName: data.name });
       await updateById({ id: user.id, data }).unwrap();
       dispatch(updateUser(data));
       toast.success('Your name has been successfully updated!');

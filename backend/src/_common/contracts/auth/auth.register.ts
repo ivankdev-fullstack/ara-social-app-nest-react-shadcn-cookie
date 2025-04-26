@@ -14,11 +14,6 @@ export class AuthRegisterRequest {
   @Expose()
   @IsString()
   password: string;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
-  phone?: string;
 }
 
 @Exclude()

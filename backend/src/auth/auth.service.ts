@@ -1,8 +1,6 @@
 import { AuthMeResponse, AuthRegisterRequest } from '@common/contracts/auth';
 import {
   ConflictException,
-  forwardRef,
-  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -10,13 +8,11 @@ import {
 } from '@nestjs/common';
 import { FirebaseService } from 'firebase/firebase.service';
 import { User } from 'user/entity/user.entity';
-import { UserRepository } from 'user/user.repository';
-import { UserService } from '../user/user.service';
+import { UserRepository } from '../user/user.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(forwardRef(() => UserService))
     private readonly userRepository: UserRepository,
     private readonly firebaseService: FirebaseService,
   ) {}
@@ -35,7 +31,7 @@ export class AuthService {
     }
   }
 
-  public async register(data: AuthRegisterRequest) {
+  public async register(data: AuthRegisterRequest): Promise<string> {
     const auth = this.firebaseService.getAuth();
 
     const isExist = await this.userRepository.getByEmail(data.email);
@@ -48,14 +44,12 @@ export class AuthService {
         email: data.email,
         password: data.password,
         displayName: data.name,
-        phoneNumber: data.phone ?? undefined,
       });
 
       const userEntity = new User({
         id: userRecord.uid,
         name: data.name,
         email: data.email,
-        phone: data.phone ?? null,
       });
 
       await this.userRepository.create(userEntity);

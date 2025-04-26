@@ -16,15 +16,5 @@ export class UserUpdateByIdRequest {
   @Expose()
   @IsString()
   @IsOptional()
-  phone?: string;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
-  password?: string;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
   avatar?: string;
 }

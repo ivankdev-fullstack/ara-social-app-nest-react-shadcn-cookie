@@ -1,14 +1,27 @@
+import { IS_PUBLIC_KEY } from '@common/decorators/is-public.decorator';
 import {
   CanActivate,
   ExecutionContext,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import * as admin from 'firebase-admin';
 
 @Injectable()
 export class FirebaseAuthGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(), // метод
+      context.getClass(), // контроллер
+    ]);
+
+    if (isPublic) {
+      return true; // пропускаем без проверки токена
+    }
+
     const req = context.switchToHttp().getRequest();
     const authHeader = req.headers.authorization;
 

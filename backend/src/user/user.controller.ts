@@ -1,11 +1,14 @@
+import { Public } from '@common/decorators/is-public.decorator';
 import { IUser } from '@common/interfaces/user/user.interface';
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { UserService } from './user.service';
+import { UserUpdateByIdRequest } from '@common/contracts/user';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Public()
   @Get('/:id')
   async getById(@Param('id') id: string): Promise<IUser> {
     return this.userService.getById(id);
@@ -20,23 +23,11 @@ export class UserController {
   //   return this.userService.uploadAvatar(id, file);
   // }
 
-  // @Put('/:id')
-  // async updateById(
-  //   @Param('id') id: string,
-  //   @Body() body: UserUpdateByIdRequest,
-  // ): Promise<boolean> {
-  //   return this.userService.updateById(id, body);
-  // }
-
-  // @Delete('/:id')
-  // async deleteById(
-  //   @Param('id') id: string,
-  //   @Res({ passthrough: true }) response: Response,
-  // ): Promise<boolean> {
-  //   const res = await this.userService.deleteById(id);
-  //   if (res) {
-  //     clearAuthCookie(response);
-  //   }
-  //   return res;
-  // }
+  @Put('/:id')
+  async updateById(
+    @Param('id') id: string,
+    @Body() body: UserUpdateByIdRequest,
+  ): Promise<boolean> {
+    return this.userService.updateById(id, body);
+  }
 }

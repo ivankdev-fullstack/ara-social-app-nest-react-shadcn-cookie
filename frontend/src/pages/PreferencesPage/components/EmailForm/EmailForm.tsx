@@ -1,3 +1,4 @@
+import { auth } from '@/_common/config/firebase';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -12,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { useUpdateByIdMutation } from '@/store/api/user.api';
 import { selectCurrentUser } from '@/store/slices/auth.slice';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { updateEmail } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
@@ -42,6 +44,7 @@ export const EmailForm = () => {
     }
 
     try {
+      await updateEmail(auth.currentUser!, data.email);
       await updateById({ id: user.id, data }).unwrap();
       toast.success(
         'We sent a verification letter to your new email. Please check!',
