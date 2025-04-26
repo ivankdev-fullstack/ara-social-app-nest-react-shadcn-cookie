@@ -19,10 +19,8 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
-import { CommentDeleteByIdGuard, CommentUpdateByIdGuard } from './guards';
 
 @Controller('comments')
 export class CommentController {
@@ -50,11 +48,10 @@ export class CommentController {
     @Body() body: CommentCreateRequest,
     @CurrentUser() user: CurrentUserType,
   ): Promise<IComment> {
-    return this.commentService.create(user.id, body);
+    return this.commentService.create(user.uid, body);
   }
 
   @Put('/:id')
-  @UseGuards(CommentUpdateByIdGuard)
   public async updateById(
     @Param('id') id: string,
     @Body() body: CommentUpdateByIdRequest,
@@ -63,7 +60,6 @@ export class CommentController {
   }
 
   @Delete('/:id')
-  @UseGuards(CommentDeleteByIdGuard)
   public async deleteById(@Param('id') id: string): Promise<boolean> {
     return this.commentService.deleteById(id);
   }

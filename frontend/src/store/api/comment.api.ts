@@ -11,7 +11,13 @@ export const commentApi = createApi({
   reducerPath: 'commentApi',
   baseQuery: fetchBaseQuery({
     baseUrl: envConfig.API_URL,
-    credentials: 'include',
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getAllPaginated: builder.query<

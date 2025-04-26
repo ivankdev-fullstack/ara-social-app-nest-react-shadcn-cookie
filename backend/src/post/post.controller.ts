@@ -17,9 +17,7 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
-import { PostDeleteByIdGuard, PostUpdateByIdGuard } from './guards';
 import { PostService } from './post.service';
 
 @Controller('posts')
@@ -47,11 +45,10 @@ export class PostController {
     @Body() body: PostCreateRequest,
     @CurrentUser() user: CurrentUserType,
   ): Promise<IPost> {
-    return this.postService.create(user.id, body);
+    return this.postService.create(user.uid, body);
   }
 
   @Put('/:id')
-  @UseGuards(PostUpdateByIdGuard)
   public async updateById(
     @Param('id') id: string,
     @Body() body: PostUpdateByIdRequest,
@@ -60,7 +57,6 @@ export class PostController {
   }
 
   @Delete('/:id')
-  @UseGuards(PostDeleteByIdGuard)
   public async deleteById(@Param('id') id: string): Promise<boolean> {
     return this.postService.deleteById(id);
   }

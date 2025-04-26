@@ -26,6 +26,10 @@ export const useComments = (target_id: string, target_type: TargetType) => {
   const loadMore = useCallback(async () => {
     dispatch(setLoading({ target_id, isLoading: true }));
 
+    if (Array.isArray(comments[target_id]) && !comments[target_id].length) {
+      dispatch(setCursor({ target_id, cursor: null }));
+    }
+
     const { data } = await trigger({
       params: { target_id, target_type },
       query: { limit: 1, cursor },
@@ -44,7 +48,7 @@ export const useComments = (target_id: string, target_type: TargetType) => {
     if (!comments[target_id]?.length && !isLoading) {
       loadMore();
     }
-  }, [target_id, comments, isLoading, loadMore]);
+  }, [loadMore]);
 
   return {
     comments,

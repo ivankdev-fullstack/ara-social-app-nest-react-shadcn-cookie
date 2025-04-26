@@ -5,7 +5,9 @@ import {
 } from '@nestjs/common';
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier';
 
-export type CurrentUserType = DecodedIdToken;
+export type CurrentUserType = {
+  uid: string;
+};
 
 export const CurrentUser = createParamDecorator(
   (data: unknown, ctx: ExecutionContext): CurrentUserType => {

@@ -38,7 +38,7 @@ export const ProfilePage = () => {
               />
             </div>
             <span className="my-1 mb-3 text-lg font-medium">{user.name}</span>
-            <div>
+            <div className="text-center">
               <span>Contact Information:</span>
               <div className="gap-.5 flex flex-col items-center text-sm text-gray-600 italic">
                 <span>Email: {user.email}</span>

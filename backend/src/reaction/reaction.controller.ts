@@ -17,7 +17,7 @@ export class ReactionController {
   ): Promise<{ result: string }> {
     const result = await this.reactionService.toggle({
       ...body,
-      user_id: user.id,
+      user_id: user.uid,
     });
     return { result };
   }
