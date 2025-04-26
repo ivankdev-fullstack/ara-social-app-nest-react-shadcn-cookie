@@ -1,8 +1,8 @@
+import { UserUpdateByIdRequest } from '@common/contracts/user';
 import { Public } from '@common/decorators/is-public.decorator';
 import { IUser } from '@common/interfaces/user/user.interface';
 import { Body, Controller, Get, Param, Put } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserUpdateByIdRequest } from '@common/contracts/user';
 
 @Controller('users')
 export class UserController {
@@ -13,15 +13,6 @@ export class UserController {
   async getById(@Param('id') id: string): Promise<IUser> {
     return this.userService.getById(id);
   }
-
-  // @Post('/:id/upload-avatar')
-  // @UseInterceptors(FileInterceptor('file'))
-  // async uploadAvatar(
-  //   @Param('id') id: string,
-  //   @UploadedFile() file: any,
-  // ): Promise<{ url: string }> {
-  //   return this.userService.uploadAvatar(id, file);
-  // }
 
   @Put('/:id')
   async updateById(

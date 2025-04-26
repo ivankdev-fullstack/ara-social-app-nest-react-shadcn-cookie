@@ -34,33 +34,6 @@ const commentSlice = createSlice({
         state.comments[target_id] = [...state.comments[target_id], ...data];
       }
     },
-
-    // toggleCurrentReaction: (
-    //   state,
-    //   action: PayloadAction<{ post_id: string; reaction_type: ReactionType }>,
-    // ) => {
-    //   const { post_id, reaction_type: new_reaction } = action.payload;
-
-    //   state.comments = state.comments.map((post) => {
-    //     if (post.id !== post_id) return post;
-
-    //     const cur_reaction = post.current_reaction;
-    //     const updatedPost = { ...post };
-
-    //     if (cur_reaction === 'like') updatedPost.countOf.likes -= 1;
-    //     if (cur_reaction === 'dislike') updatedPost.countOf.dislikes -= 1;
-
-    //     if (cur_reaction === new_reaction) {
-    //       updatedPost.current_reaction = null;
-    //     } else {
-    //       updatedPost.current_reaction = new_reaction;
-    //       if (new_reaction === 'like') updatedPost.countOf.likes += 1;
-    //       if (new_reaction === 'dislike') updatedPost.countOf.dislikes += 1;
-    //     }
-
-    //     return updatedPost;
-    //   });
-    // },
     removeComment: (
       state,
       action: PayloadAction<{ target_id: string; comment_id: string }>,
@@ -126,7 +99,6 @@ const commentSlice = createSlice({
 
 export const {
   appendComments,
-  // toggleCurrentReaction,
   updateComment,
   removeComment,
   setCursor,
