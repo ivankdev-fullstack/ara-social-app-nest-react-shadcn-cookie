@@ -26,23 +26,18 @@ export const userApi = createApi({
         method: 'GET',
       }),
     }),
-    uploadAvatar: builder.mutation<{ url: string }, { id: string; file: File }>(
-      {
-        query: ({ id, file }) => {
-          const formData = new FormData();
-          formData.append('file', file);
-
-          return {
-            url: `/users/${id}/upload-avatar`,
-            method: 'POST',
-            body: formData,
-            // headers: {
-            //   'Content-Type': 'multipart/form-data', // Это можно не указывать, так как fetch сам определяет правильный заголовок для FormData
-            // },
-          };
-        },
+    uploadAvatar: builder.mutation<
+      { url: string },
+      { id: string; avatar_url: string }
+    >({
+      query: (data) => {
+        return {
+          url: `/users/${data.id}/upload-avatar`,
+          method: 'POST',
+          body: data,
+        };
       },
-    ),
+    }),
     updateById: builder.mutation<boolean, UpdateByIdData>({
       query: ({ id, data }) => ({
         url: `/users/${id}`,

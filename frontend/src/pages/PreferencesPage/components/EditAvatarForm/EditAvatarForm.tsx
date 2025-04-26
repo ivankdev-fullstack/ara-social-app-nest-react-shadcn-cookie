@@ -1,8 +1,10 @@
+import { storage } from '@/_common/config/firebase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useUploadAvatarMutation } from '@/store/api/user.api';
+import { useUpdateByIdMutation } from '@/store/api/user.api';
 import { updateUser } from '@/store/slices/auth.slice';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -26,7 +28,7 @@ interface Props {
 
 export const EditAvatarForm = ({ user_id, user_avatar }: Props) => {
   const [preview, setPreview] = useState(user_avatar);
-  const [uploadAvatar] = useUploadAvatarMutation();
+  const [updateById] = useUpdateByIdMutation();
   const dispatch = useDispatch();
 
   const {
@@ -41,9 +43,12 @@ export const EditAvatarForm = ({ user_id, user_avatar }: Props) => {
     const file = data.file[0];
 
     try {
-      // await updateProfile(auth.currentUser!, {photoURL: })
-      const res = await uploadAvatar({ id: user_id, file });
-      dispatch(updateUser({ avatar: res.data!.url! }));
+      const storageRef = ref(storage, `avatars/${user_id}/${file.name}`);
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      await updateById({ id: user_id, data: { avatar: downloadURL } });
+
+      dispatch(updateUser({ avatar: downloadURL }));
       toast.success(
         'You have successfully uploaded new avatar for your profile!',
       );
