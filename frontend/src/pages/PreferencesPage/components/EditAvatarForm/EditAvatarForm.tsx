@@ -41,6 +41,7 @@ export const EditAvatarForm = ({ user_id, user_avatar }: Props) => {
     const file = data.file[0];
 
     try {
+      // await updateProfile(auth.currentUser!, {photoURL: })
       const res = await uploadAvatar({ id: user_id, file });
       dispatch(updateUser({ avatar: res.data!.url! }));
       toast.success(
@@ -52,9 +53,6 @@ export const EditAvatarForm = ({ user_id, user_avatar }: Props) => {
         'Something went wrong while uploading new avatar to your profile.',
       );
     }
-
-    // TODO: replace with your request
-    console.log('Upload request with:', file);
   };
 
   const handlePreview = (e: React.ChangeEvent<HTMLInputElement>) => {

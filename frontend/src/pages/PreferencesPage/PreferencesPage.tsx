@@ -27,6 +27,8 @@ export const PreferencesPage = () => {
     navigate(-1);
   };
 
+  console.log(user.avatar);
+
   return (
     <div className="small-container">
       <Card className="mt-10">

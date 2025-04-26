@@ -66,4 +66,34 @@ export class AuthService {
       );
     }
   }
+
+  public async googleAuth(
+    data: AuthRegisterRequest & { idToken: string },
+  ): Promise<string> {
+    const auth = this.firebaseService.getAuth();
+
+    try {
+      const decodedToken = await auth.verifyIdToken(data.idToken);
+      const { uid, picture } = decodedToken;
+
+      let user = await this.userRepository.getByEmail(data.email);
+
+      if (!user) {
+        const userEntity = new User({
+          id: uid,
+          email: data.email,
+          name: data.name,
+          avatar: picture,
+        });
+        await this.userRepository.create(userEntity);
+      }
+
+      return auth.createCustomToken(uid);
+    } catch (err) {
+      console.log(err);
+      throw new InternalServerErrorException(
+        'Something went wrong during user registration',
+      );
+    }
+  }
 }

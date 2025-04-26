@@ -33,4 +33,14 @@ export class AuthController {
     const token = await this.authService.register(body);
     return { token };
   }
+
+  @Public()
+  @Post('register/google')
+  @Serialize(AuthRegisterResponse)
+  public async googleAuth(
+    @Body() body: AuthRegisterRequest & { idToken: string },
+  ): Promise<AuthRegisterResponse> {
+    const token = await this.authService.googleAuth(body);
+    return { token };
+  }
 }

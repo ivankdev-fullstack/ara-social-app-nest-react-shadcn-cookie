@@ -28,7 +28,6 @@ export const Navbar = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (!user) return null;
-  console.log(user);
 
   const redirectToUserPage = () => {
     navigate(`/profile/${user.id}`);

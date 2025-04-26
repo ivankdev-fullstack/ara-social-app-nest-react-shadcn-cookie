@@ -10,7 +10,8 @@ interface LoginBody {
 interface RegisterBody {
   name: string;
   email: string;
-  password: string;
+  password?: string;
+  idToken?: string;
 }
 
 export const authApi = createApi({
@@ -45,7 +46,22 @@ export const authApi = createApi({
         body: data,
       }),
     }),
+    registerByGoogle: mutation<
+      IAuthResponse,
+      RegisterBody & { idToken: string }
+    >({
+      query: (data) => ({
+        url: '/auth/register/google',
+        method: 'POST',
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useGetMeQuery } = authApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useRegisterByGoogleMutation,
+  useGetMeQuery,
+} = authApi;

@@ -15,6 +15,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { GoogleSignInButton } from '../GoogleSignBtn/GoogleSignBtn';
 
 const formSchema = z.object({
   email: z.string().email().min(5).max(50),
@@ -66,6 +67,7 @@ export const SignInForm = ({ setIsSignIn }: Props) => {
         <div className="mb-8 text-center text-2xl font-medium">
           Log in to your account
         </div>
+        <GoogleSignInButton />
         <FormField
           control={form.control}
           name="email"

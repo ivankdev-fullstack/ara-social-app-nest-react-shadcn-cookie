@@ -13,7 +13,8 @@ export class AuthRegisterRequest {
 
   @Expose()
   @IsString()
-  password: string;
+  @IsOptional()
+  password?: string;
 }
 
 @Exclude()

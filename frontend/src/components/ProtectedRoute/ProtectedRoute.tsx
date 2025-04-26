@@ -10,10 +10,10 @@ export const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!isLoading) {
       if (!user && location.pathname !== '/') {
-        navigate('/', { replace: true });
+        window.location.href = '/';
       }
       if (user && location.pathname === '/') {
-        navigate('/feed', { replace: true });
+        window.location.href = '/feed';
       }
     }
   }, [user, isLoading, location.pathname, navigate]);
