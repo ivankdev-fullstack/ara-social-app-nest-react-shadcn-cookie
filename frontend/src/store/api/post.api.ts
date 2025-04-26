@@ -14,7 +14,13 @@ export const postApi = createApi({
   reducerPath: 'postApi',
   baseQuery: fetchBaseQuery({
     baseUrl: envConfig.API_URL,
-    credentials: 'include',
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     getAllPaginated: builder.query<

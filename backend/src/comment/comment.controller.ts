@@ -2,6 +2,7 @@ import {
   CurrentUser,
   CurrentUserType,
 } from '@common/decorators/current-user.decorator';
+import { Public } from '@common/decorators/is-public.decorator';
 import { TargetType } from '@common/interfaces/interfaces';
 import {
   CommentCreateRequest,
@@ -27,6 +28,7 @@ import { CommentDeleteByIdGuard, CommentUpdateByIdGuard } from './guards';
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
 
+  @Public()
   @Get('/by-target/:target_type/:target_id')
   public async getAllByTargetPaginated(
     @Param('target_type') target_type: TargetType,

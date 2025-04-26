@@ -14,12 +14,12 @@ export class FirebaseAuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-      context.getHandler(), // метод
-      context.getClass(), // контроллер
+      context.getHandler(),
+      context.getClass(),
     ]);
 
     if (isPublic) {
-      return true; // пропускаем без проверки токена
+      return true;
     }
 
     const req = context.switchToHttp().getRequest();

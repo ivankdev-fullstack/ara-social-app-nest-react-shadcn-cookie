@@ -47,13 +47,13 @@ export class AuthService {
       });
 
       const userEntity = new User({
-        id: userRecord.uid,
+        id: userRecord?.uid,
         name: data.name,
         email: data.email,
       });
 
       await this.userRepository.create(userEntity);
-      return auth.createCustomToken(userRecord.uid);
+      return auth.createCustomToken(userRecord?.uid);
     } catch (err) {
       console.log(err);
       if (err.code === 'auth/email-already-exists') {

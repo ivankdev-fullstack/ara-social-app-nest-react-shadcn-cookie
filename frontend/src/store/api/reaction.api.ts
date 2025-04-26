@@ -9,7 +9,13 @@ export const reactionApi = createApi({
   reducerPath: 'reactionApi',
   baseQuery: fetchBaseQuery({
     baseUrl: envConfig.API_URL,
-    credentials: 'include',
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     toggle: builder.mutation<ReactionToggleResponse, ReactionToggleData>({

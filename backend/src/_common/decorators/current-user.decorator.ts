@@ -12,7 +12,7 @@ export const CurrentUser = createParamDecorator(
     const req = ctx.switchToHttp().getRequest();
     const user = req?.user;
 
-    if (!user.uid) {
+    if (!user?.uid) {
       throw new UnauthorizedException('User not found in request');
     }
 

@@ -35,7 +35,7 @@ export class PostController {
   ): Promise<PostGetAllPaginatedResponse> {
     const numericLimit = limit ? parseInt(limit, 10) : 10;
     return this.postService.getAllPaginated(
-      user.id,
+      user.uid,
       numericLimit,
       cursor,
       author_id,

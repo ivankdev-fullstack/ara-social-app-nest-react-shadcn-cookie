@@ -43,6 +43,10 @@ export class PostRepository {
     const snapshot = await query.get();
     const docs = snapshot.docs;
 
+    if (!docs.length) {
+      return { data: [], nextCursor: null };
+    }
+
     const hasMore = docs.length > limit;
     const data = hasMore
       ? docs.slice(0, limit).map((doc) => doc.data() as IPost)

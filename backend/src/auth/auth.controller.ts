@@ -21,7 +21,7 @@ export class AuthController {
   public async me(
     @CurrentUser() user: CurrentUserType,
   ): Promise<AuthMeResponse> {
-    return this.authService.me(user.uid);
+    return this.authService.me(user?.uid);
   }
 
   @Public()
