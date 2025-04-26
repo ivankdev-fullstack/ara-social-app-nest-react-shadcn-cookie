@@ -1,3 +1,4 @@
+import { auth } from '@/_common/config/firebase';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -9,8 +10,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useUpdateByIdMutation } from '@/store/api/user.api';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { updatePassword } from 'firebase/auth';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -25,12 +26,7 @@ const formSchema = z
     message: 'Passwords do not match',
   });
 
-interface Props {
-  user_id: string;
-}
-
-export const PasswordForm = ({ user_id }: Props) => {
-  const [updateById] = useUpdateByIdMutation();
+export const PasswordForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     mode: 'onChange',
@@ -42,23 +38,11 @@ export const PasswordForm = ({ user_id }: Props) => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await updateById({
-        id: user_id,
-        data: { password: data.password },
-      }).unwrap();
+      await updatePassword(auth.currentUser!, data.password);
       toast.success('Your password has been successfully updated!');
-    } catch (err: any) {
-      if (
-        err?.data?.message?.includes('Cannot update password to current one')
-      ) {
-        form.setError('password', {
-          type: 'manual',
-          message: 'You cannot change password to the current one.',
-        });
-      } else {
-        toast.error('Error while updating user password.');
-        console.log('Error while updating user password: ', err);
-      }
+    } catch (err) {
+      toast.error('Error while updating user password.');
+      console.log('Error while updating user password: ', err);
     }
   };
 

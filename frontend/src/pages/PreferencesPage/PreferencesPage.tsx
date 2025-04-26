@@ -48,7 +48,7 @@ export const PreferencesPage = () => {
             <EmailForm />
           </PreferencesSection>
           <PreferencesSection title="Change Password">
-            <PasswordForm user_id={user.id} />
+            <PasswordForm />
           </PreferencesSection>
           <PreferencesSection title="Account actions">
             <AccountActions />
