@@ -49,6 +49,7 @@ export const SignInForm = ({ setIsSignIn }: Props) => {
       setLoading(false);
       window.location.reload();
     } catch (err) {
+      setLoading(false);
       toast.error('Something went wrong while loggin in.');
       console.log('Error while logging: ', err);
     }

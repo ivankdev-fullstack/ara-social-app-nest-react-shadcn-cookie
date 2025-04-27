@@ -26,6 +26,9 @@ const postSlice = createSlice({
     appendPosts: (state, action: PayloadAction<IPost[]>) => {
       state.posts.push(...action.payload);
     },
+    setPosts: (state, action: PayloadAction<IPost[]>) => {
+      state.posts = action.payload;
+    },
     toggleCurrentReaction: (
       state,
       action: PayloadAction<{ post_id: string; reaction_type: ReactionType }>,
@@ -117,6 +120,7 @@ const postSlice = createSlice({
 });
 
 export const {
+  setPosts,
   addOneToPosts,
   appendPosts,
   toggleCurrentReaction,

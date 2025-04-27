@@ -23,6 +23,13 @@ export const postApi = createApi({
     },
   }),
   endpoints: (builder) => ({
+    getById: builder.query<IPost, { id: string }>({
+      query: ({ id }) => {
+        return {
+          url: `/posts/${id}`,
+        };
+      },
+    }),
     getAllPaginated: builder.query<
       getAllPaginatedResponse,
       getAllPaginatedData
@@ -72,6 +79,7 @@ export const postApi = createApi({
 });
 
 export const {
+  useGetByIdQuery,
   useGetAllPaginatedQuery,
   useCreatePostMutation,
   useUpdateByIdMutation,

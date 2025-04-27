@@ -24,6 +24,11 @@ import { PostService } from './post.service';
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
+  @Get('/:id')
+  public async getById(@Param('id') id: string): Promise<IPost> {
+    return this.postService.getById(id);
+  }
+
   @Get()
   public async getAllPaginated(
     @CurrentUser() user: CurrentUserType,

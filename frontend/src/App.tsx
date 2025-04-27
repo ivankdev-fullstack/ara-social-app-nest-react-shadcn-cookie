@@ -4,6 +4,7 @@ import './App.css';
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';
 import { AuthPage } from './pages/AuthPage/AuthPage';
 import { FeedPage } from './pages/FeedPage/FeedPage';
+import { PostPage } from './pages/PostPage/PostPage';
 import { PreferencesPage } from './pages/PreferencesPage/PreferencesPage';
 import { ProfilePage } from './pages/ProfilePage/ProfilePage';
 
@@ -29,6 +30,14 @@ export const App = () => {
           }
         />
         <Route
+          path="/posts/:id"
+          element={
+            <ProtectedRoute>
+              <PostPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/preferences"
           element={
             <ProtectedRoute>
@@ -44,6 +53,7 @@ export const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="*" element={<ProtectedRoute />} />
       </Routes>
       <Toaster richColors position="bottom-right" />
     </>

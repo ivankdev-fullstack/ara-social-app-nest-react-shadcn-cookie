@@ -12,8 +12,8 @@ import { signOut } from 'firebase/auth';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { SearchInput } from '../SearchInput/SearchInput';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -45,20 +45,19 @@ export const Navbar = () => {
   };
 
   return (
-    <div className="flex h-[70px] items-center justify-center bg-sky-600">
+    <div className="mb-8 flex h-[70px] items-center justify-center bg-sky-600">
       <div className="small-container flex items-center">
         <div
           className="flex flex-1 items-center gap-2 hover:cursor-pointer"
-          onClick={() => navigate('/feed')}
+          onClick={() => {
+            window.location.href = '/feed';
+          }}
         >
           <img src={AraWhiteIcon} className="max-w-[40px]" />
           <span className="text-xl font-medium text-white">Ara</span>
         </div>
         <div className="flex flex-1 justify-center">
-          <Input
-            placeholder="Search posts..."
-            className="w-[300px] rounded-full border-none bg-blue-400 text-white shadow-none placeholder:text-white"
-          />
+          <SearchInput />
         </div>
 
         <div className="flex flex-1 justify-end">
