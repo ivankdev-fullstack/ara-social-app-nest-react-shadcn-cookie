@@ -8,7 +8,7 @@ interface EnvConfig {
   VITE_MESSAGING_SENDER_ID: string;
   VITE_APP_ID: string;
   VITE_ALG_ID: string;
-  VITE_ALG_SEACRH_API_KEY: string;
+  VITE_ALG_SEARCH_API_KEY: string;
 }
 
 const ensure = (key: string): string => {
@@ -29,5 +29,5 @@ export const envConfig: EnvConfig = {
   VITE_MESSAGING_SENDER_ID: ensure('VITE_MESSAGING_SENDER_ID'),
   VITE_APP_ID: ensure('VITE_APP_ID'),
   VITE_ALG_ID: ensure('VITE_ALG_ID'),
-  VITE_ALG_SEACRH_API_KEY: ensure('VITE_ALG_SEARCH_API_KEY'),
+  VITE_ALG_SEARCH_API_KEY: ensure('VITE_ALG_SEARCH_API_KEY'),
 };
