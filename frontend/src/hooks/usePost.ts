@@ -3,7 +3,6 @@ import { setCursor, setHasMore, setPosts } from '@/store/slices/post.slice';
 import { RootState } from '@/store/store';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 
 export const usePost = (post_id: string) => {
   const dispatch = useDispatch();

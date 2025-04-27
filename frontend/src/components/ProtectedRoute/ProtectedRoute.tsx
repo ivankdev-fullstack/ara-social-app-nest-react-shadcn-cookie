@@ -1,10 +1,8 @@
 import { useAuth } from '@/hooks/useAuth';
 import { ReactNode, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
 export const ProtectedRoute = ({ children }: { children?: ReactNode }) => {
   const { user, isLoading } = useAuth();
-  const location = useLocation();
 
   useEffect(() => {
     if (!isLoading) {
