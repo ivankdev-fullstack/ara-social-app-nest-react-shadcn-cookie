@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
+import { envConfig } from './env';
 
 const {
   VITE_API_KEY,
@@ -9,7 +10,7 @@ const {
   VITE_STORAGE_BUCKET,
   VITE_MESSAGING_SENDER_ID,
   VITE_APP_ID,
-} = import.meta.env;
+} = envConfig;
 
 export const firebaseConfig = {
   apiKey: VITE_API_KEY,
