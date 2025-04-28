@@ -8,7 +8,7 @@ interface ConstructorProps extends Partial<IUser> {
 }
 
 const defaultAvatarUrl =
-  'https://ara-bucket-9009.s3.us-east-1.amazonaws.com/default_avatar.jpg';
+  'https://firebasestorage.googleapis.com/v0/b/ara-db-31a41.firebasestorage.app/o/avatars%2Fdefault_avatar.jpg?alt=media&token=13677980-ae2b-4466-9183-4987dceb8f38';
 
 export class User implements IUser {
   static collectionName = 'users';

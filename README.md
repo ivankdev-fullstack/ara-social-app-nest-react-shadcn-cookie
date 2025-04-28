@@ -28,28 +28,32 @@ For backend (.env - production, .env.dev - development):
 
 ```bash
 # App
-PORT=
-NODE_ENV=
+PORT=3333
+NODE_ENV=development
 CLIENT_URL=
 
 # Firebase
-SA_KEY=
-
-# S3
-S3_ACCESS_KEY=
-S3_SECRET_KEY=
-S3_BUCKET_NAME=
-
-# JWT
-JWT_SECRET=
-JWT_EXPIRES_IN=
+SA_KEY=service-account.json
 ```
 
 For frontend (.env):
 
 ```bash
+# App
 VITE_API_URL=
-VITE_ENV=
+VITE_ENV=development
+
+# Firebase
+VITE_API_KEY=
+VITE_AUTH_DOMAIN=
+VITE_PROJECT_ID=
+VITE_STORAGE_BUCKET=
+VITE_MESSAGING_SENDER_ID=
+VITE_APP_ID=
+
+# Algoria
+VITE_ALG_ID=
+VITE_ALG_SEARCH_API_KEY=
 ```
 
 ## Run app
