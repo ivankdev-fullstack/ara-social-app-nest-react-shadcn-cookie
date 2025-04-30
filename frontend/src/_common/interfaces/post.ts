@@ -2,7 +2,7 @@ import { ReactionType } from './reaction';
 import { IUser } from './user';
 
 export interface IPost {
-  // Algoria
+  // Algolia
   objectID?: string;
   id: string;
   title: string;

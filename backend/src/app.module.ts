@@ -5,6 +5,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { FirebaseAuthGuard } from 'firebase/firebase-auth.guard';
 import { FirebaseModule } from 'firebase/firebase.module';
 import { FirestoreModule } from 'firestore/firestore.module';
+import { AlgoliaModule } from './algoria/algolia.module';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { CommentModule } from './comment/comment.module';
@@ -31,6 +32,7 @@ import { UserModule } from './user/user.module';
     PostModule,
     CommentModule,
     ReactionModule,
+    AlgoliaModule,
   ],
   controllers: [AppController],
   providers: [

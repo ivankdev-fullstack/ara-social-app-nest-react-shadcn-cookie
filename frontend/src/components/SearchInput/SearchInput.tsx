@@ -1,4 +1,4 @@
-import { searchIndex } from '@/_common/config/algoria';
+import { useSearchPostsMutation } from '@/store/api/post.api';
 import { useState } from 'react';
 import { Input } from '../ui/input';
 import { SearchItem } from './SearchItem';
@@ -6,6 +6,7 @@ import { SearchItem } from './SearchItem';
 export const SearchInput = () => {
   const [query, setQuery] = useState('');
   const [hits, setHits] = useState<any[]>([]);
+  const [searchPosts] = useSearchPostsMutation();
 
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -17,8 +18,8 @@ export const SearchInput = () => {
     }
     setQuery(value);
 
-    const result = await searchIndex.search(value);
-    setHits(result.hits);
+    const result = await searchPosts({ query: value.trim() });
+    setHits(result?.data?.hits ?? []);
   };
 
   return (

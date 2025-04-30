@@ -49,6 +49,18 @@ export const postApi = createApi({
         };
       },
     }),
+    searchPosts: builder.mutation<
+      { hits: { objectID: string }[] },
+      { query: string }
+    >({
+      query: (data) => {
+        return {
+          url: `/algolia/search/posts`,
+          method: 'POST',
+          body: data,
+        };
+      },
+    }),
     createPost: builder.mutation<IPost, { title: string; content: string }>({
       query: (data) => {
         return {
@@ -79,6 +91,7 @@ export const postApi = createApi({
 });
 
 export const {
+  useSearchPostsMutation,
   useGetByIdQuery,
   useGetAllPaginatedQuery,
   useCreatePostMutation,
